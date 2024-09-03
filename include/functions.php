@@ -233,8 +233,24 @@ function obfuscate_directory($source_dir,$target_dir,$keep_mode=false)   // self
             exit(54);
         }
 
-        if (isset($conf->t_skip) && is_array($conf->t_skip) && in_array($source_path,$conf->t_skip))    continue;
-
+		//这里应该是比较是否有跳过目录，而不应该比较完整文件路径，2024-09-03
+		if (isset($conf->t_skip) && is_array($conf->t_skip))
+		{
+			$bfound = false;
+			foreach($conf->t_skip as $skip)
+			{
+				if( str_starts_with($source_path, $skip))
+				{
+					$bfound = true;
+					break;
+				}
+			}
+			if ($bfound)
+			{
+				continue;
+			}
+		}
+		
         if (!$conf->follow_symlinks && is_link($source_path))
         {
             if ( ($target_stat!==false) && is_link($target_path) && ($source_stat['mtime']<=$target_stat['mtime']) )    continue;
