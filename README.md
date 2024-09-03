@@ -335,4 +335,5 @@ Recursivly removes target_directory/yakpro-po
     
     
     
-    
+## 修改
+## 2024-09-03 $conf->t_skip 应该是比较是否有跳过目录，而不应该比较完整文件路径    
